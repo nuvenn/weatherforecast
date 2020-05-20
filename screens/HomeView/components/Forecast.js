@@ -25,20 +25,28 @@ const getDayOfWeek = (day) => {
 };
 
 export default function Forecast(props) {
-  const { date, date_br } = props;
+  const { date, dateBR, temperatureMax, temperatureMin, precipitation } = props;
   const dayOfWeek = getDayOfWeek(date);
 
   return (
     <>
       <Container>
-        <View>
+        <Day>
           <Title>{dayOfWeek}</Title>
-          <SubTitle>{date_br}</SubTitle>
-        </View>
-        <Feather name="sun" size={24} color={colors.primary} />
+          <SubTitle>{dateBR}</SubTitle>
+        </Day>
+        <Feather
+          name={precipitation === 0 ? "sun" : "cloud"}
+          size={24}
+          color={colors.primary}
+        />
         <View>
-          <SubTitle style={{ color: colors.secondary }}>25°C</SubTitle>
-          <SubTitle style={{ color: colors.tertiary }}>19°C</SubTitle>
+          <SubTitle style={{ color: colors.secondary }}>
+            {temperatureMax}°C
+          </SubTitle>
+          <SubTitle style={{ color: colors.tertiary }}>
+            {temperatureMin}°C
+          </SubTitle>
         </View>
       </Container>
     </>
@@ -53,6 +61,10 @@ const Container = styled.View`
   background-color: ${colors.primaryLight};
   padding: 10px;
   margin: 10px 0 0;
+`;
+
+const Day = styled.View`
+  flex: 150px 0 0;
 `;
 
 const Title = styled.Text`

@@ -22,6 +22,7 @@ export default function HomeView() {
       .get(apiUrl)
       .then((response) => response.data.data)
       .then((result) => {
+        console.log(result[3]);
         setWeatherInfo(result);
       })
       .catch(function (error) {
@@ -35,7 +36,14 @@ export default function HomeView() {
       <Header />
       <About />
       {weatherInfo.map((info) => (
-        <Forecast key={info.date} date={info.date} date_br={info.date_br} />
+        <Forecast
+          key={info.date}
+          date={info.date}
+          dateBR={info.date_br}
+          temperatureMax={info.temperature.max}
+          temperatureMin={info.temperature.min}
+          precipitation={info.rain.precipitation}
+        />
       ))}
     </Container>
   );
