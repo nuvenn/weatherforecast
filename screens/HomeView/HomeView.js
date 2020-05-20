@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "react-native";
 import axios from "axios";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 import { colors } from "../../styles";
 import Header from "./components/Header";
