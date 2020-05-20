@@ -20,9 +20,9 @@ export default function HomeView() {
   const getWeather = () => {
     axios
       .get(apiUrl)
-      .then((response) => {
-        console.log(response.data.data[0]);
-        setWeatherInfo(response.data.data[0]);
+      .then((response) => response.data.data)
+      .then((result) => {
+        setWeatherInfo(result);
       })
       .catch(function (error) {
         console.log(error);
@@ -34,7 +34,9 @@ export default function HomeView() {
       <StatusBar barStyle="light-content" />
       <Header />
       <About />
-      <Forecast />
+      {weatherInfo.map((info) => (
+        <Forecast key={info.date} date={info.date} date_br={info.date_br} />
+      ))}
     </Container>
   );
 }

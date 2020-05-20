@@ -4,13 +4,36 @@ import styled from "styled-components";
 import { Feather, Entypo } from "@expo/vector-icons";
 import { colors } from "../../../styles";
 
-export default function Forecast() {
+const getDayOfWeek = (day) => {
+  const dayIndex = new Date(day);
+  const dayOfWeek = dayIndex.getDay();
+  if (dayOfWeek === 6) {
+    return "Domingo";
+  } else if (dayOfWeek === 0) {
+    return "Segunda-feira";
+  } else if (dayOfWeek === 1) {
+    return "Terça-feira";
+  } else if (dayOfWeek === 2) {
+    return "Quarta-feira";
+  } else if (dayOfWeek === 3) {
+    return "Quinta-feira";
+  } else if (dayOfWeek === 4) {
+    return "Sexta-feira";
+  } else if (dayOfWeek === 5) {
+    return "Sábado";
+  }
+};
+
+export default function Forecast(props) {
+  const { date, date_br } = props;
+  const dayOfWeek = getDayOfWeek(date);
+
   return (
     <>
       <Container>
         <View>
-          <Title>Quarta-Feira</Title>
-          <SubTitle>20/05/2020</SubTitle>
+          <Title>{dayOfWeek}</Title>
+          <SubTitle>{date_br}</SubTitle>
         </View>
         <Feather name="sun" size={24} color={colors.primary} />
         <View>
