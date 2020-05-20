@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { AsyncStorage } from "react-native";
 import { StatusBar } from "react-native";
 import axios from "axios";
 import styled from "styled-components";
@@ -8,6 +7,7 @@ import { colors } from "../../styles";
 import Header from "./components/Header";
 import About from "./components/About";
 import Forecast from "./components/Forecast";
+import { StorageService } from "../../services/StorageService";
 
 export default function HomeView() {
   const [weatherInfo, setWeatherInfo] = useState([]);
@@ -18,31 +18,12 @@ export default function HomeView() {
     getWeather();
   }, []);
 
-  const _storeData = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const _retrieveData = async (key, callback) => {
-    try {
-      const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        callback(JSON.parse(value));
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getWeather = () => {
     axios
       .get(apiUrl)
       .then((response) => response.data.data)
       .then((result) => {
-        _storeData("FORECAST", JSON.stringify(result));
+        StorageService._storeData("FORECAST", JSON.stringify(result));
         setWeatherInfo(result);
       })
       .catch(function (error) {
@@ -50,7 +31,7 @@ export default function HomeView() {
       })
       .then(function () {
         if (weatherInfo.length === 0) {
-          _retrieveData("FORECAST", setWeatherInfo);
+          StorageService._retrieveData("FORECAST", setWeatherInfo);
         }
       });
   };
