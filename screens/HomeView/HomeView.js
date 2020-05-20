@@ -11,10 +11,14 @@ import { StorageService } from "../../services/StorageService";
 
 export default function HomeView() {
   const [weatherInfo, setWeatherInfo] = useState([]);
+  const [currentInfo, setCurrentInfo] = useState([]);
   const apiUrl =
     "http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=bda1bab21ddc54b9546de7a72a53fc46";
+  const apiUrlCurrent =
+    "http://apiadvisor.climatempo.com.br/api/v1/weather/locale/3477/current?token=bda1bab21ddc54b9546de7a72a53fc46";
 
   useEffect(() => {
+    getCurrentWeather();
     getWeather();
   }, []);
 
@@ -36,11 +40,19 @@ export default function HomeView() {
       });
   };
 
+  const getCurrentWeather = () => {
+    axios.get(apiUrlCurrent).then((response) => setCurrentInfo(response.data));
+  };
+
   return (
     <Container>
       <StatusBar barStyle="light-content" />
       <Header />
-      <About />
+      <About
+        city={currentInfo.name}
+        state={currentInfo.state}
+        country={currentInfo.country}
+      />
       {weatherInfo.map((info) => (
         <Forecast
           key={info.date}

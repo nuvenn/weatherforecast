@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components/native";
 import { colors } from "../../../styles";
 
-export default function About() {
+export default function About(props) {
   return (
     <>
       <Container>
-        <Title>São Paulo/SP</Title>
-        <SubTitle>Brasil</SubTitle>
+        <Title>
+          {props.city}/{props.state}
+        </Title>
+        <SubTitle>{props.country}</SubTitle>
       </Container>
       <Divider />
     </>
