@@ -41,7 +41,20 @@ export default function HomeView() {
   };
 
   const getCurrentWeather = () => {
-    axios.get(apiUrlCurrent).then((response) => setCurrentInfo(response.data));
+    axios
+      .get(apiUrlCurrent)
+      .then((response) => {
+        StorageService._storeData("CURRENT", JSON.stringify(result));
+        setCurrentInfo(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        if (currentInfo.length === 0) {
+          StorageService._retrieveData("CURRENT", setCurrentInfo);
+        }
+      });
   };
 
   return (
